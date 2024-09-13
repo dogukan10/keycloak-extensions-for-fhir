@@ -27,7 +27,6 @@ import org.hl7.fhir.r4.model.HumanName;
 import org.hl7.fhir.r4.model.Patient;
 import org.hl7.fhir.r4.model.Resource;
 import org.jboss.logging.Logger;
-import org.jboss.resteasy.util.HttpHeaderNames;
 import org.keycloak.authentication.AuthenticationFlowContext;
 import org.keycloak.authentication.AuthenticationFlowError;
 import org.keycloak.authentication.Authenticator;
@@ -51,6 +50,8 @@ import org.keycloak.sessions.AuthenticationSessionModel;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.client.api.ServerValidationModeEnum;
+
+import static org.apache.http.HttpHeaders.AUTHORIZATION;
 
 /**
  * Present a patient context picker when the client requests the launch/patient scope and the
@@ -125,7 +126,7 @@ public class PatientSelectionForm implements Authenticator {
 
 		try {
 			Bundle returnBundle = hapiClient.transaction().withBundle(requestBundle)
-					.withAdditionalHeader(HttpHeaderNames.AUTHORIZATION, "Bearer " + accessToken)
+					.withAdditionalHeader(AUTHORIZATION, "Bearer " + accessToken)
 					.execute();
 
 			List<PatientStruct> patients = gatherPatientInfo(returnBundle);

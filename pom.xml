@@ -10,7 +10,7 @@
   <packaging>pom</packaging>
 
   <properties>
-    <keycloak.version>22.0.1</keycloak.version>
+    <keycloak.version>25.0.5</keycloak.version>
     <!-- 1.10.0 = 17.0.0-legacy  2.2.2=18.0.0 -->
     <testcontainers-keycloak.version>2.2.2</testcontainers-keycloak.version>
     <hapi.fhir.version>5.7.2</hapi.fhir.version>

@@ -260,6 +260,7 @@ public class KeycloakConfigurator {
 		if (clientScope == null) {
 			clientScope = new ClientScopeRepresentation();
 			clientScope.setName(clientScopeName);
+			clientScope.setProtocol(clientScopePg.getStringProperty(KeycloakConfig.PROP_CLIENT_SCOPE_PROTOCOL));
 			clientScopes.create(clientScope);
 			clientScope = getClientScopeByName(clientScopes, clientScopeName);
 			if (clientScope == null) {
@@ -634,7 +635,7 @@ public class KeycloakConfigurator {
 
 			PropertyGroup entryProps = authenticationExecutionsPg.getPropertyGroup(entry);
 
-			HashMap<String, String> executionParams = new HashMap<String, String>();
+			HashMap<String, Object> executionParams = new HashMap<String, Object>();
 
 			String description = entryProps.getStringProperty("description");
 			executionParams.put("description", description);
@@ -674,7 +675,7 @@ public class KeycloakConfigurator {
 		if (childIsFlow) {
 			System.out.println("Adding nested flow: " + displayName);
 
-			HashMap<String, String> executionParams = new HashMap<>();
+			HashMap<String, Object> executionParams = new HashMap<>();
 
 			// String alias = propGroup.getStringProperty("alias");
 			String parentFlowAlias = entry;
@@ -707,7 +708,7 @@ public class KeycloakConfigurator {
 			authenticationFlow = authMgmt.getFlow(lastAdded.getFlowId());
 			updateFlowWithExecutions(authMgmt, propGroup, authenticationFlow);
 		} else {
-			HashMap<String, String> childExecutionParams = new HashMap<>();
+			HashMap<String, Object> childExecutionParams = new HashMap<>();
 			childExecutionParams.put("provider", authenticator);
 			AuthenticationExecutionInfoRepresentation childExecution = getOrCreateExecution(authMgmt, entry, displayName,
 					childIsFlow, childExecutionParams);
@@ -771,7 +772,7 @@ public class KeycloakConfigurator {
 	}
 
 	private AuthenticationExecutionInfoRepresentation getOrCreateExecution(AuthenticationManagementResource authMgmt,
-			String flowAlias, String displayName, boolean isFlow, HashMap<String, String> executionParams) {
+			String flowAlias, String displayName, boolean isFlow, HashMap<String, Object> executionParams) {
 		AuthenticationExecutionInfoRepresentation savedExecution = getExecutionByDisplayName(authMgmt, flowAlias, displayName);
 
 		// System.out.println("savedExecution1: " + savedExecution);
